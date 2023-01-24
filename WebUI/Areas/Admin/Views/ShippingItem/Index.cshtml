@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using Core.Entities;
+@model IQueryable<ShippingItem>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Striped Table</h4>
+        <p class="card-description">
+            Add class <code>.table-striped</code>
+        </p>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="py-1">
+                                <img src="~/assets/images/website-images//@item.Image"
+                                 alt="Shipping Icon" />
+                            </td>
+                            <td>
+                                @item.Title
+                            </td>
+                            <td>
+                                <div class="">
+                                    <div  >@item.Description</div>
+                                </div>
+                            </td>
+                            <td>
+                                <a>Delete</a>
+                                <a>Update</a>
+                            </td>
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
