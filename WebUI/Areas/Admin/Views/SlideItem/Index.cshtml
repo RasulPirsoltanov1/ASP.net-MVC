@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using Core.Entities;
+@model IQueryable<SlideItem>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Slide Items</h4>
+        <p class="card-description">
+            <a asp-action="Create">Create SlideItem</a>
+        </p>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Offer
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><img src="~/assets/images/website-images/@item.Photo" /></td>
+                            <td>@item.Title</td>
+                            <td>@item.Offer</td>
+                            <td>@item.Description</td>
+                            <td>
+                                <a class="btn btn-info" asp-area="Admin" asp-controller="SlideItem" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="SlideItem" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+                                <form style="display:inline;" method="post" asp-action="Delete" asp-area="Admin" asp-controller="SlideItem" asp-action="Delete" asp-route-id="@item.Id">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

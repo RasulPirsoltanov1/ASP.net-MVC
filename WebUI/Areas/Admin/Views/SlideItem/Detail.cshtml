@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model SlideItem
+<h1>Details</h1>
+<div class="card">
+    @Model.Title
+    <br />
+    @Model.Description
+    <br />
+    @Model.Offer
+    <br />
+    <img width="200px" src="~/assets/images/website-images/@Model.Photo" />
+</div>
+<a class="btn btn-primary" asp-action="Index">Go back</a>
+

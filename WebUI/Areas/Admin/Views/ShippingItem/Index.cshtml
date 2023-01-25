@@ -9,7 +9,7 @@
     <div class="card-body">
         <h4 class="card-title">Striped Table</h4>
         <p class="card-description">
-            Add class <code>.table-striped</code>
+           <a asp-action="Create">Create Shipping</a>
         </p>
         <div class="table-responsive">
             <table class="table table-striped">
@@ -46,12 +46,14 @@
                                 </div>
                             </td>
                             <td>
-                                <a>Delete</a>
-                                <a>Update</a>
+                                <a class="btn btn-info" asp-area="Admin" asp-controller="ShippingItem" asp-action="Update" asp-route-id="@item.Id" >Update</a>
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="ShippingItem" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+                                <form style="display:inline;" method="post" asp-action="Delete" asp-area="Admin" asp-controller="ShippingItem" asp-action="Delete" asp-route-id="@item.Id">
+                                    <button type="submit" class="btn btn-danger" >Delete</button>
+                                </form>
                             </td>
                         </tr>
-                    }
-                    
+                    }  
                 </tbody>
             </table>
         </div>
