@@ -15,6 +15,8 @@ namespace WebUI.Controllers
         }
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("name", "The Doctor");
+            Response.Cookies.Append("surname", "Filankesov");
             var ShippingItems = _context.ShippingItems;
             HomeViewModel model = new()
             {
@@ -22,6 +24,12 @@ namespace WebUI.Controllers
                 SlideItems=_context.SlideItems
             };
             return View(model);
+        }
+        public IActionResult test()
+        {
+            var s = HttpContext.Session.GetString("name");
+            var s2 = Request.Cookies["surname"];
+            return Json(s+" +" +s2);
         }
     }
 }

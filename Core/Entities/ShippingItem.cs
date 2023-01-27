@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities;
 
-public class ShippingItem
+public class ShippingItem: IEntity
 {
     public int Id{ get; set; }
     [Required]

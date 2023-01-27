@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using DataAccess.Contexts;
+using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Areas.Admin.Controllers
@@ -7,19 +8,21 @@ namespace WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class ShippingItemController : Controller
     {
-        private AppDbContext _context;
+        private IShippingItemRepository _repository;
 
-        public ShippingItemController(AppDbContext context)
+        public ShippingItemController(IShippingItemRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View(_context.ShippingItems);
+            var a = await _repository.GetAllAsync();
+            return View(a);
         }
         public async Task<IActionResult> Detail(int id)
         {
-            var model =await _context.ShippingItems.FindAsync(id);
+            var model =await _repository.GetAsync(id);
             return View(model);
         }
         public async Task<IActionResult> Create()
@@ -34,14 +37,14 @@ namespace WebUI.Areas.Admin.Controllers
             {
                 return View(item);
             }
-            await _context.ShippingItems.AddAsync(item);
-            await _context.SaveChangesAsync();
+            await _repository.CreateAsync(item);
+            await _repository.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update(int id)
         {
-            var dbItem =await _context.ShippingItems.FindAsync(id);
+            var dbItem = await _repository.GetAsync(id);
             if(dbItem is null)
             {
                 return NotFound();
@@ -59,7 +62,7 @@ namespace WebUI.Areas.Admin.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            var updateItem =await _context.ShippingItems.FindAsync(id);
+            var updateItem =await _repository.GetAsync(id);
             if(updateItem is null)
             {
                 return NotFound();
@@ -68,21 +71,21 @@ namespace WebUI.Areas.Admin.Controllers
             updateItem.Description=item.Description;
             updateItem.Title = item.Title;
             updateItem.Image=item.Image;
-            _context.ShippingItems.Update(updateItem);
-            await _context.SaveChangesAsync();
+            _repository.Update(updateItem);
+            await _repository.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var dbItem = await _context.ShippingItems.FindAsync(id);
+            var dbItem = await _repository.GetAsync(id);
             if (dbItem is null)
             {
                 return NotFound();
             }
-            _context.ShippingItems.Remove(dbItem);
-            _context.SaveChanges();
+            _repository.Delete(dbItem);
+            await _repository.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
     }
