@@ -25,5 +25,12 @@
             }
             return fileName;
         }
+        public enum RoleType : byte
+        {
+            Admin,
+            Memmber,
+            Moderator
+        }
+
     }
 }

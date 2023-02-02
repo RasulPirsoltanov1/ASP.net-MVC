@@ -1,8 +1,13 @@
+using Business.Interfaces;
+using Business.Services;
 using Core.Entities;
 using DataAccess.Contexts;
 using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
+using System.Net.Mail;
+using WebUI.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
@@ -18,12 +23,15 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.User.RequireUniqueEmail = true;
     options.Lockout.MaxFailedAccessAttempts = 3;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30);
-}).AddEntityFrameworkStores<AppDbContext>();
+    options.Lockout.AllowedForNewUsers = true;
+}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IShippingItemRepository, ShippingItemRepository>();
+builder.Services.AddTransient<IMailService, MailService>();
 builder.Services.AddSession(opt =>
 {
     opt.IdleTimeout = TimeSpan.FromSeconds(10);
 });
+builder.Services.Configure<WebUI.Utilities.MailSettings>(builder.Configuration.GetSection("MailSettings"));
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseSession();

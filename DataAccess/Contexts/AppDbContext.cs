@@ -16,5 +16,6 @@ namespace DataAccess.Contexts
         }
         public DbSet<SlideItem> SlideItems { get; set; } = null!;
         public DbSet<ShippingItem> ShippingItems{ get; set; } = null!;
+        public DbSet<Product> Products{ get; set; } = null!;
     }
 }
